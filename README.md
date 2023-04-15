@@ -75,8 +75,6 @@ https://github.com/singh-gur/mini_klipper
 
 # Reverting back to Prusa Firmware
 
-*UNTESTED*
-
 Clone and build a DFU version of the Prusa Firmware:
 ```
 git clone https://github.com/prusa3d/Prusa-Firmware-Buddy
@@ -94,3 +92,73 @@ Put the Mini in DFU mode by shorting the correct pins and resetting. And than fl
 dfu-util -a 0 -D firmware.dfu
 ```
 Remove the short and reset the Mini.
+
+## Downgrade test 4.3.4
+
+Tested the downgrade with Prusa Firmware 4.3.4. The default checkout was 4.5.x
+and that stalled on some text like "locating 4.5.x-local.bbf".
+
+D
+```
+git clone https://github.com/prusa3d/Prusa-Firmware-Buddy
+git checkout origin/RELEASE-4.3.4
+
+python3 utils/build.py  --build-type release --generate-dfu
+[download/build output]
+...
+Building finished: 3 success, 0 failure(s).
+ mini_release_noboot    SUCCESS
+ mini_release_emptyboot SUCCESS
+ mini_release_boot      SUCCESS
+```
+
+Copy firmware to Mini:
+```
+scp build/mini_release_boot/firmware.dfu pi@minisail:~/firmware-4.3.4.dfu
+```
+
+Flashing:
+```
+pi@minisail:~ $ dfu-util -a 0 -D ~/firmware-4.3.4.dfu 
+dfu-util 0.9
+
+Copyright 2005-2009 Weston Schmidt, Harald Welte and OpenMoko Inc.
+Copyright 2010-2016 Tormod Volden and Stefan Schmidt
+This program is Free Software and has ABSOLUTELY NO WARRANTY
+Please report bugs to http://sourceforge.net/p/dfu-util/tickets/
+
+Match vendor ID from file: 0483
+Match product ID from file: 0000
+Opening DFU capable USB device...
+ID 0483:df11
+Run-time device DFU version 011a
+Claiming USB DFU Interface...
+Setting Alternate Setting #0 ...
+Determining device status: state = dfuERROR, status = 10
+dfuERROR, clearing status
+Determining device status: state = dfuIDLE, status = 0
+dfuIDLE, continuing
+DFU mode device DFU version 011a
+Claiming USB DFU Interface...
+Setting Alternate Setting #0 ...
+Determining device status: state = dfuERROR, status = 10
+dfuERROR, clearing status
+Determining device status: state = dfuIDLE, status = 0
+dfuIDLE, continuing
+DFU mode device DFU version 011a
+Device returned transfer size 2048
+DfuSe interface name: "Internal Flash  "
+file contains 1 DFU images
+parsing DFU image 1
+image for alternate setting 0, (2 elements, total size = 820197)
+parsing element 1, address = 0x08000000, size = 131069
+Download        [=========================] 100%       131069 bytes
+Download done.
+parsing element 2, address = 0x08020000, size = 689112
+Download        [=========================] 100%       689112 bytes
+Download done.
+done parsing DfuSe file
+```
+
+Remove the short and you will be greeted by Prusa Firmware.
+
