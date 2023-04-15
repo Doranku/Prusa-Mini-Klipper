@@ -1,5 +1,7 @@
 # PrusaSlicer profiles
 
+Create with PrusaSlice-2.6.0-alpha6
+
 ## Print settings
 "print/0.30mm NORMAL @0.6 nozzle Klipper.ini"
 

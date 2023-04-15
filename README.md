@@ -3,7 +3,7 @@
 Running Klipper on a Prusa Mini based on Mainsail.
 https://docs.mainsail.xyz/
 
-The directory config contains the configuration for
+The directory *config* contains the configuration for
 the Mini. The idea is to keep the changes to the 
 PrusaSlicer printer settings to a minimum, so try to
 be Marlin compatible.
@@ -61,7 +61,7 @@ See https://help.prusa3d.com/article/flashing-custom-firmware-mini_14
 
 Use
 ```
-lsubs
+lsusb
 ```
 to find out what the device ID of the printer is. Use that to actually flash it.
 
@@ -69,9 +69,11 @@ to find out what the device ID of the printer is. Use that to actually flash it.
 make flash FLASH_DEVICE=0483:df11
 ```
 Reset the Mini and you should see an image indicating a developer firmware 
-running.
+running. The display is not supported at the moment of writing. People
+have been working of display support in the past, for example see:
+https://github.com/singh-gur/mini_klipper
 
-# Reverting back for Prusa Firmware
+# Reverting back to Prusa Firmware
 
 *UNTESTED*
 
