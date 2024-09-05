@@ -26,6 +26,9 @@ visual quality. When keeping the default PrusaSlicer Mini profiles the added
 tuning for pressure advance and anti-resonance should improve the visual
 quality, I did not test this since I mostly don't care about visuals.
 
+*This reason is obsolte with the 6.x+ firmware version. It does a fantastic job 
+combining speed and quality with the PrusaSlicer Input Shaping profiles for the Mini.*
+
 # Installing klipper
 
 *To play it save: first make sure compiling works before modifying
@@ -75,6 +78,24 @@ https://github.com/singh-gur/mini_klipper
 
 # Reverting back to Prusa Firmware
 
+## using the Prusa bootloader
+
+Since the original bootloader is still present, you can use that to just reflash 
+the original firmware (from https://github.com/prusa3d/Prusa-Firmware-Buddy/releases). 
+Depending on what the bootloader version was before you flashed klipper you might 
+have to flash 4.4.x before going to 5.x and later.
+
+To activate the bootloader flash option:
+- press reset
+- immediatly press the selector knob twice
+
+The Prusa documentation on using the bootloader:
+https://help.prusa3d.com/article/firmware-updating-mini-mini_124784
+
+## Building an unsigned version
+
+(apparently doesn't work anymore, needs some tests and updating)
+
 Clone and build a DFU version of the Prusa Firmware:
 ```
 git clone https://github.com/prusa3d/Prusa-Firmware-Buddy
@@ -93,7 +114,7 @@ dfu-util -a 0 -D firmware.dfu
 ```
 Remove the short and reset the Mini.
 
-## Downgrade test 4.3.4
+### Downgrade test 4.3.4
 
 Tested the downgrade with Prusa Firmware 4.3.4. The default checkout was 4.5.x
 and that stalled on some text like "locating 4.5.x-local.bbf".
